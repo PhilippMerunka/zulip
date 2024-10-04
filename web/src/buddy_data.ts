@@ -42,17 +42,25 @@ export function set_is_searching_users(val: boolean): void {
 
 export function get_user_circle_class(user_id: number): string {
     const status = presence.get_status(user_id);
+    // Consider inaccessible users as active to avoid
+    // falsely showing the user as deactivated as we do
+    // not have any information about whether they are
+    // active or not.
+    const is_deactivated = (!people.is_person_active(user_id) && !people.get_by_user_id(user_id).is_inaccessible_user);
 
-    switch (status) {
-        case "active":
-            return "user_circle_green";
-        case "idle":
-            return "user_circle_idle";
-        default:
-            return "user_circle_empty";
+    if (!is_deactivated) {
+        switch (status) {
+            case "active":
+                return "user_circle_green";
+            case "idle":
+                return "user_circle_idle";
+            default:
+                return "user_circle_empty";
+        }
+    } else {
+        return "user_circle_deactivated"
     }
 }
-
 export function level(user_id: number): number {
     // Put current user at the top, unless we're in a user search view.
     if (people.is_my_user_id(user_id) && !is_searching_users) {
