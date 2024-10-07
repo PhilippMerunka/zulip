@@ -126,6 +126,10 @@ function set_presence(user_id, status) {
     });
 }
 
+function deactivate(user_id) {
+    people.deactivate(people.get_by_user_id(user_id));
+}
+
 test("user_circle, level", () => {
     add_canned_users();
 
@@ -140,6 +144,9 @@ test("user_circle, level", () => {
     set_presence(selma.user_id, "offline");
     assert.equal(buddy_data.get_user_circle_class(selma.user_id), "user_circle_empty");
     assert.equal(buddy_data.level(selma.user_id), 3);
+    
+    deactivate(selma.user_id);
+    assert.equal(buddy_data.get_user_circle_class(selma.user_id), "user_circle_deactivated");
 
     set_presence(me.user_id, "active");
     assert.equal(buddy_data.get_user_circle_class(me.user_id), "user_circle_green");

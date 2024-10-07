@@ -104,6 +104,7 @@
         }
 
         &.deactivated-pill {
+            opacity: 0.5;
             background-color: var(--color-background-deactivated-user-pill);
 
             &:focus {

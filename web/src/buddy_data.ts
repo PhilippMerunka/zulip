@@ -48,6 +48,7 @@ export function get_user_circle_class(user_id: number): string {
     // active or not.
     const is_deactivated = (!people.is_person_active(user_id) && !people.get_by_user_id(user_id).is_inaccessible_user);
 
+
     if (!is_deactivated) {
         switch (status) {
             case "active":
@@ -61,6 +62,7 @@ export function get_user_circle_class(user_id: number): string {
         return "user_circle_deactivated"
     }
 }
+
 export function level(user_id: number): number {
     // Put current user at the top, unless we're in a user search view.
     if (people.is_my_user_id(user_id) && !is_searching_users) {
